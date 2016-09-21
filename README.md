@@ -2,14 +2,15 @@ I've this simple [example](https://github.com/paluh/pux-eff-inference-problem) P
 
 
 ```purescript
-foreign import push :: forall eff. String -> Eff (dom :: DOM | eff) Unit
-
 data State = State
 data Action = Action
 
+push :: forall eff. Eff eff Unit
+push = pure unit
+
 update :: forall eff. Update State (Action) (dom :: DOM | eff)
 update Action s =
-  onlyEffects s [ liftEff' (push "/url") >>= (const $ pure Action) ]
+  onlyEffects s [ liftEff' push >>= (const $ pure Action) ]
 ```
 
 
